@@ -75,8 +75,8 @@ void startScreen()
   background(0);
   textSize(75);
   //Night Mode button
-  text("Night Mode", width/2, 200);
-  if (mouseX>500&&mouseX<780&&mouseY>125&&mouseY<225)
+  text("Night Mode", width/2, height/4);
+  if (mouseX>(width*0.390625)&&mouseX<(width*0.609375)&&mouseY>(height*0.15625)&&mouseY<(height*0.28125))
   {
     nightMode=true;
     screenState=1;
@@ -85,15 +85,17 @@ void startScreen()
   //Normal mode button
   text("Start", width/2, height/2);
   //image(start, width/2, height/2);
-  if (mouseX>800&&mouseX<1760&&mouseY>600&&mouseY<900)
+  //rect(width*0.3125, height*0.375, width*0.6875, height*0.5625);
+  fill(255);
+  if (mouseX>(width*0.3125)&&mouseX<(width*0.6875)&&mouseY>(height*0.375)&&mouseY<(height*0.5625))
   {
     nightMode=false;
     screenState=1;
   }
   textSize(75);
   //Tutorial button
-  text("Tutorial", width/2, (height/2)+100);
-  if (mouseX>500&&mouseX<780&&mouseY>450&&mouseY<600)
+  text("Tutorial", width/2, (height/2)+200);
+  if (mouseX>(width*0.390625)&&mouseX<(width*0.609375)&&mouseY>(height*0.5625)&&mouseY<(height*0.75))
   {
     screenState=3;
   }
