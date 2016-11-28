@@ -2,10 +2,13 @@
 void Attack1()
 {
   killAll();
+  projectileShooters.add(new ProjectileShooter(0, 0, 30, 0));
+  projectileShooters.add(new ProjectileShooter(0, 0, 30, 10));
+  projectileShooters.add(new ProjectileShooter(0, 0, 30, 20));
 
   for (int i=0; i<100; i++)
   {
-    normalProjectiles.add(new ProjectileNormal(random(width), 0, 0, 6));
+    //normalProjectiles.add(new ProjectileNormal(random(width), 0, 0, 6));
   }
 }
 void Attack2()

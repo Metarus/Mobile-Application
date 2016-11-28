@@ -16,7 +16,7 @@ float ax, ay, az, calibrator;
 float multiplier=0.75;
 int screenState, timer, attackPattern, score;
 boolean died, nightMode, mouseReleased;
-//PImage start;
+PImage background;
 
 //Declaring the player
 Player player = new Player();
@@ -24,6 +24,7 @@ Player player = new Player();
 ArrayList<ProjectileNormal> normalProjectiles = new ArrayList<ProjectileNormal>();
 ArrayList<ProjectileHoming> homingProjectiles = new ArrayList<ProjectileHoming>();
 ArrayList<ProjectileHomingAccurate> accurateHomingProjectiles = new ArrayList<ProjectileHomingAccurate>();
+ArrayList<ProjectileShooter> projectileShooters = new ArrayList<ProjectileShooter>();
 
 
 void setup()
@@ -38,7 +39,8 @@ void setup()
   imageMode(CENTER);
   //fullScreen();
   textAlign(CENTER);
-  //start=loadImage("Start.png");
+  background=loadImage("background.png");
+  background.resize(width, height);
   //noCursor();
 }
 void draw()
@@ -72,7 +74,8 @@ void draw()
 void startScreen()
 {
   //Initial Screen
-  background(0);
+  //background(0);
+  image(background, width/2, height/2);
   textSize(75);
   //Night Mode button
   text("Night Mode", width/2, height/4);
@@ -124,7 +127,7 @@ void gameCode()
     player.x=width/2;
     player.y=3*(height/4);
     //Random attack pattern
-    attackPattern=int(random(1, 7));
+    attackPattern=int(random(1, 2));
     timer=millis()+5000;
     //Running the code to initialise the attacks
     switch(attackPattern)
