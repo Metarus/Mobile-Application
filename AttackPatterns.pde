@@ -1,32 +1,22 @@
 //Different attack patterns
 void Attack1()
 {
-  killAll();
-  projectileShooters.add(new ProjectileShooter(0, 0, 30, 0));
-  projectileShooters.add(new ProjectileShooter(0, 0, 30, 10));
-  projectileShooters.add(new ProjectileShooter(0, 0, 30, 20));
-
   for (int i=0; i<100; i++)
   {
-    //normalProjectiles.add(new ProjectileNormal(random(width), 0, 0, 6));
+    normalProjectiles.add(new ProjectileNormal(random(width), 0, 0, 6));
   }
 }
 void Attack2()
 {
-  killAll();
-
-  for (int i=0; i<5; i++)
+  for (int i=0; i<40; i++)
   {
-    homingProjectiles.add(new ProjectileHoming(random(width), 0, 0, 0));
-    homingProjectiles.add(new ProjectileHoming(0, random(height), 0, 0));
-    homingProjectiles.add(new ProjectileHoming(random(width), height, 0, 0));
-    homingProjectiles.add(new ProjectileHoming(width, random(height), 0, 0));
+    normalProjectiles.add(new ProjectileNormal(random(width), 0, 0, 8));
+    normalProjectiles.add(new ProjectileNormal(random(width), -300, 0, 8));
+    normalProjectiles.add(new ProjectileNormal(random(width), -600, 0, 8));
   }
 }
 void Attack3()
 {
-  killAll();
-
   for (int i=0; i<5; i++)
   {
     accurateHomingProjectiles.add(new ProjectileHomingAccurate(random(width), 0, 0, 0));
@@ -37,8 +27,6 @@ void Attack3()
 }
 void Attack4()
 {
-  killAll();
-
   for (int i=0; i<50; i++)
   {
     normalProjectiles.add(new ProjectileNormal(random(width), 0, 0, 6));
@@ -52,19 +40,16 @@ void Attack4()
 }
 void Attack5()
 {
-  killAll();
-
-  for (int i=0; i<40; i++)
+  for (int i=0; i<5; i++)
   {
-    normalProjectiles.add(new ProjectileNormal(random(width), 0, 0, 8));
-    normalProjectiles.add(new ProjectileNormal(random(width), -300, 0, 8));
-    normalProjectiles.add(new ProjectileNormal(random(width), -600, 0, 8));
+    homingProjectiles.add(new ProjectileHoming(random(width), 0, 0, 0));
+    homingProjectiles.add(new ProjectileHoming(0, random(height), 0, 0));
+    homingProjectiles.add(new ProjectileHoming(random(width), height, 0, 0));
+    homingProjectiles.add(new ProjectileHoming(width, random(height), 0, 0));
   }
 }
 void Attack6()
 {
-  killAll();
-
   for (int i=0; i<5; i++)
   {
     accurateHomingProjectiles.add(new ProjectileHomingAccurate(0, random(height), 0, 0));
@@ -72,4 +57,11 @@ void Attack6()
     homingProjectiles.add(new ProjectileHoming(random(width), height, 0, 0));
     homingProjectiles.add(new ProjectileHoming(random(width), 0, 0, 0));
   }
+}
+void Attack7()
+{
+  projectileShooters.add(new ProjectileShooter(0, 0, 10, (int)random(10)));
+  projectileShooters.add(new ProjectileShooter(0, height, 10, (int)random(10)));
+  projectileShooters.add(new ProjectileShooter(width, 0, 10, (int)random(10)));
+  projectileShooters.add(new ProjectileShooter(width, height, 10, (int)random(10)));
 }

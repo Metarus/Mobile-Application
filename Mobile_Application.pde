@@ -14,9 +14,9 @@ KetaiSensor sensor;
 float ax, ay, az, calibrator;
 
 float multiplier=0.75;
-int screenState, timer, attackPattern, score;
+int screenState, timer, attackPattern, score, levelNumber=1, waveNumber;
 boolean died, nightMode, mouseReleased;
-PImage background;
+//PImage background;
 
 //Declaring the player
 Player player = new Player();
@@ -39,8 +39,8 @@ void setup()
   imageMode(CENTER);
   //fullScreen();
   textAlign(CENTER);
-  background=loadImage("background.png");
-  background.resize(width, height);
+  //background=loadImage("background.png");
+  //background.resize(width, height);
   //noCursor();
 }
 void draw()
@@ -74,8 +74,8 @@ void draw()
 void startScreen()
 {
   //Initial Screen
-  //background(0);
-  image(background, width/2, height/2);
+  background(0);
+  //image(background, width/2, height/2);
   textSize(75);
   //Night Mode button
   text("Night Mode", width/2, height/4);
@@ -123,12 +123,23 @@ void gameCode()
   //Runs randomiser every 5 seconds
   if (millis()>timer)
   {
-    //Sets player back to midpoint
-    player.x=width/2;
-    player.y=3*(height/4);
+    if (waveNumber==3)
+    {
+      waveNumber=0;
+      levelNumber++;
+      killAll();
+      player.x=width/2;
+      player.y=3*(height/4);
+      if (levelNumber>5)
+      {
+        levelNumber=5;
+      }
+      multiplier+=0.25;
+    }
     //Random attack pattern
-    attackPattern=int(random(1, 2));
+    attackPattern=int(random(1, levelNumber+2));
     timer=millis()+5000;
+    waveNumber++;
     //Running the code to initialise the attacks
     switch(attackPattern)
     {
@@ -150,6 +161,8 @@ void gameCode()
     case 6:
       Attack6();
       break;
+    case 7:
+      Attack7();
     }
   }
   //Updating everything else
@@ -157,18 +170,20 @@ void gameCode()
   player.movementCode();
   //Updates the score and multiplier
   score++;
-  multiplier+=0.00025; //Rate of 0.25 per 1000 points, just a smaller scale for more accurate updating
+  //multiplier+=0.00025; //Rate of 0.25 per 1000 points, just a smaller scale for more accurate updating
   textSize(30);
   //Different colored text (white for night mode and black for normal mode) for the score
   if (nightMode)
   {
     fill(255);
     text(score, 30, 30);
+    text(levelNumber, width/2, 30);
     text(millis()-timer, width-20, 20);
   } else
   {
     fill(0);
     text(timer-millis(), width-60, 50);
+    text(levelNumber, width/2, 30);
     text(score, 50, 50);
   }
 }
@@ -180,6 +195,10 @@ void attackUpdate()
     ProjectileNormal part = normalProjectiles.get(i);
     part.move();
     part.collision();
+    if (part.kill)
+    {
+      normalProjectiles.remove(i);
+    }
     if (part.collide)
     {
       died=true;
@@ -190,6 +209,10 @@ void attackUpdate()
     ProjectileHomingAccurate part = accurateHomingProjectiles.get(i);
     part.move();
     part.collision();
+    if (part.kill)
+    {
+      normalProjectiles.remove(i);
+    }
     if (part.collide)
     {
       died=true;
@@ -200,11 +223,20 @@ void attackUpdate()
     ProjectileHoming part = homingProjectiles.get(i);
     part.move();
     part.collision();
+    if (part.kill)
+    {
+      normalProjectiles.remove(i);
+    }
     if (part.collide)
     {
       died=true;
       mouseReleased=false;
     }
+  }
+  for (int i=0; i<projectileShooters.size(); i++)
+  {
+    ProjectileShooter part = projectileShooters.get(i);
+    part.update();
   }
 }
 void killAll()
@@ -213,6 +245,7 @@ void killAll()
   normalProjectiles.clear();
   homingProjectiles.clear();
   accurateHomingProjectiles.clear();
+  projectileShooters.clear();
 }
 void died()
 {
@@ -249,6 +282,8 @@ void reset()
   died=false;
   timer=0;
   mouseReleased=false;
+  levelNumber=1;
+  waveNumber=0;
 }
 void onAccelerometerEvent(float x, float y, float z)
 {
