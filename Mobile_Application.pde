@@ -130,14 +130,17 @@ void gameCode()
       killAll();
       player.x=width/2;
       player.y=3*(height/4);
-      if (levelNumber>5)
-      {
-        levelNumber=5;
-      }
-      multiplier+=0.25;
+      multiplier+=0.125;
     }
     //Random attack pattern
-    attackPattern=int(random(1, levelNumber+2));
+    if (levelNumber>5)
+    {
+      attackPattern=int(random(1, 7));
+    } else
+    {
+      attackPattern=int(random(1, levelNumber+2));
+      killAll();
+    }
     timer=millis()+5000;
     waveNumber++;
     //Running the code to initialise the attacks
@@ -177,13 +180,25 @@ void gameCode()
   {
     fill(255);
     text(score, 30, 30);
-    text(levelNumber, width/2, 30);
+    if (levelNumber>5)
+    {
+      text("5+", width/2, 30);
+    } else
+    {
+      text(levelNumber, width/2, 30);
+    }
     text(millis()-timer, width-20, 20);
   } else
   {
     fill(0);
     text(timer-millis(), width-60, 50);
-    text(levelNumber, width/2, 30);
+    if (levelNumber>5)
+    {
+      text("5+", width/2, 30);
+    } else
+    {
+      text(levelNumber, width/2, 30);
+    }    
     text(score, 50, 50);
   }
 }
@@ -195,10 +210,6 @@ void attackUpdate()
     ProjectileNormal part = normalProjectiles.get(i);
     part.move();
     part.collision();
-    if (part.kill)
-    {
-      normalProjectiles.remove(i);
-    }
     if (part.collide)
     {
       died=true;
@@ -209,10 +220,6 @@ void attackUpdate()
     ProjectileHomingAccurate part = accurateHomingProjectiles.get(i);
     part.move();
     part.collision();
-    if (part.kill)
-    {
-      normalProjectiles.remove(i);
-    }
     if (part.collide)
     {
       died=true;
@@ -223,10 +230,6 @@ void attackUpdate()
     ProjectileHoming part = homingProjectiles.get(i);
     part.move();
     part.collision();
-    if (part.kill)
-    {
-      normalProjectiles.remove(i);
-    }
     if (part.collide)
     {
       died=true;

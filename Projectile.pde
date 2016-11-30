@@ -12,11 +12,6 @@ class Projectile
   void collision()
   {
     //Testing the distance to see if there is collision
-    age++;
-    if (age>600)
-    {
-      kill=true;
-    }
     fill(255, 0, 0);
     distance=dist(projX, projY, player.x, player.y);
     if (distance<=5+size/2)
