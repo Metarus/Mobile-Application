@@ -128,17 +128,15 @@ void gameCode()
       waveNumber=0;
       levelNumber++;
       killAll();
-      player.x=width/2;
-      player.y=3*(height/4);
       multiplier+=0.125;
     }
     //Random attack pattern
     if (levelNumber>5)
     {
-      attackPattern=int(random(1, 7));
+      attackPattern=int(random(1, 8));
     } else
     {
-      attackPattern=int(random(1, levelNumber+2));
+      attackPattern=int(random(levelNumber, levelNumber+2));
       killAll();
     }
     timer=millis()+5000;
