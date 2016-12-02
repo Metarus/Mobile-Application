@@ -76,15 +76,16 @@ void startScreen()
   //Initial Screen
   background(0);
   //image(background, width/2, height/2);
-  textSize(75);
+  textSize(150);
   //Night Mode button
-  text("Night Mode", width/2, height/4);
+  text("Calibrator", width/2, height/4);
   if (mouseX>(width*0.390625)&&mouseX<(width*0.609375)&&mouseY>(height*0.15625)&&mouseY<(height*0.28125))
   {
-    nightMode=true;
-    screenState=1;
+    //nightMode=true;
+    //screenState=1;
+    calibrator=ax;
   }
-  textSize(200);
+  textSize(400);
   //Normal mode button
   text("Start", width/2, height/2);
   //image(start, width/2, height/2);
@@ -95,16 +96,12 @@ void startScreen()
     nightMode=false;
     screenState=1;
   }
-  textSize(75);
+  textSize(150);
   //Tutorial button
   text("Tutorial", width/2, (height/2)+200);
   if (mouseX>(width*0.390625)&&mouseX<(width*0.609375)&&mouseY>(height*0.5625)&&mouseY<(height*0.75))
   {
     screenState=3;
-  }
-  if (mouseY>height-200&&mousePressed)
-  {
-    calibrator=ax;
   }
 }
 void gameCode()
@@ -123,7 +120,7 @@ void gameCode()
   //Runs randomiser every 5 seconds
   if (millis()>timer)
   {
-    if (waveNumber==3)
+    if (waveNumber==2)
     {
       waveNumber=0;
       levelNumber++;
@@ -133,7 +130,23 @@ void gameCode()
     //Random attack pattern
     if (levelNumber>5)
     {
-      attackPattern=int(random(1, 8));
+      killAll();
+      attackPattern=int(random(1, 7));
+      switch((int)random(4))
+      {
+      case 0:
+        projectileShooters.add(new ProjectileShooter(0, 0, 10, (int)random(10)));
+        break;
+      case 1:
+        projectileShooters.add(new ProjectileShooter(0, height, 10, (int)random(10)));
+        break;
+      case 2:
+        projectileShooters.add(new ProjectileShooter(width, 0, 10, (int)random(10)));
+        break;
+      case 3:
+        projectileShooters.add(new ProjectileShooter(width, height, 10, (int)random(10)));
+        break;
+      }
     } else
     {
       attackPattern=int(random(levelNumber, levelNumber+2));
@@ -162,8 +175,6 @@ void gameCode()
     case 6:
       Attack6();
       break;
-    case 7:
-      Attack7();
     }
   }
   //Updating everything else
@@ -172,7 +183,7 @@ void gameCode()
   //Updates the score and multiplier
   score++;
   //multiplier+=0.00025; //Rate of 0.25 per 1000 points, just a smaller scale for more accurate updating
-  textSize(30);
+  textSize(60);
   //Different colored text (white for night mode and black for normal mode) for the score
   if (nightMode)
   {
@@ -192,10 +203,10 @@ void gameCode()
     text(timer-millis(), width-60, 50);
     if (levelNumber>5)
     {
-      text("5+", width/2, 30);
+      text("5+", width/2, 50);
     } else
     {
-      text(levelNumber, width/2, 30);
+      text(levelNumber, width/2, 50);
     }    
     text(score, 50, 50);
   }
@@ -253,12 +264,12 @@ void died()
   //The respawn screenState
   background(0);
   killAll();
-  textSize(50);
+  textSize(100);
   text("You died!", width/2, height/3);
-  textSize(30);
+  textSize(60);
   text("Click to play again!", width/2, 2*(height/3));
   text(score, width/2, height/2);
-  text("Back", 35, 30);
+  text("Back", 70, 60);
   if (mousePressed==false)
   {
     mouseReleased=true;
